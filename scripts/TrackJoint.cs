@@ -11,7 +11,7 @@ public class TrackJoint : PathFollow2D
 
     public override void _Ready()
     {
-        Hide(); // make this only visible in the editor
+        // Hide(); // make this only visible in the editor
 
         var trackSectionEnds = GetTree().GetNodesInGroup("TrackJoint");
         TrackJoint closest = null;

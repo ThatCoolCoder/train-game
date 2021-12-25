@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scripts/LinearTrackSection.cs" type="Script" id=1]
+[ext_resource path="res://scenes/TrackSections/TrackJoint.tscn" type="PackedScene" id=2]
+[ext_resource path="res://art/Track.png" type="Texture" id=3]
+[ext_resource path="res://scripts/SwitchTrackSection.cs" type="Script" id=4]
+
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 256, 0 )
+}
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, -55.5, -0.25, 55.5, 0.25, 64, 0, -56.5, 0.5, 56.5, -0.5, 192, -64, 0, 0, 0, 0, 256, -64 )
+}
+
+[node name="SwitchTrackSection" type="Node2D"]
+script = ExtResource( 4 )
+TrackSection1Path = NodePath("StraightTrackSection")
+TrackSection2Path = NodePath("BranchTrackSection")
+
+[node name="StraightTrackSection" type="Path2D" parent="."]
+curve = SubResource( 2 )
+script = ExtResource( 1 )
+End1Path = NodePath("End1")
+End2Path = NodePath("End2")
+
+[node name="Line2D" type="Line2D" parent="StraightTrackSection"]
+points = PoolVector2Array( 617, 131 )
+width = 30.0
+default_color = Color( 1, 1, 1, 1 )
+texture = ExtResource( 3 )
+texture_mode = 1
+
+[node name="End1" parent="StraightTrackSection" instance=ExtResource( 2 )]
+position = Vector2( 0.00503041, 0 )
+offset = 0.01
+
+[node name="End2" parent="StraightTrackSection" instance=ExtResource( 2 )]
+position = Vector2( 255.986, 0 )
+offset = 255.8
+TravelDirection = -1
+
+[node name="BranchTrackSection" type="Path2D" parent="."]
+visible = false
+curve = SubResource( 1 )
+script = ExtResource( 1 )
+End1Path = NodePath("End1")
+End2Path = NodePath("End2")
+
+[node name="Line2D" type="Line2D" parent="BranchTrackSection"]
+points = PoolVector2Array( 617, 131 )
+width = 30.0
+default_color = Color( 1, 1, 1, 1 )
+texture = ExtResource( 3 )
+texture_mode = 1
+
+[node name="End1" parent="BranchTrackSection" instance=ExtResource( 2 )]
+position = Vector2( 0.00501946, -6.17583e-05 )
+rotation = -0.0128344
+offset = 0.01
+
+[node name="End2" parent="BranchTrackSection" instance=ExtResource( 2 )]
+position = Vector2( 255.997, -64.0001 )
+rotation = 0.0287531
+offset = 274.8
+TravelDirection = -1
