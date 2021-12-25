@@ -15,6 +15,11 @@ public class SwitchTrackSection : Node2D, TrackSection
     [Export] private NodePath track2Path;
     private Track track2;
 
+    [Export] private NodePath track1IndicatorPath;
+    private Sprite track1Indicator;
+    [Export] private NodePath track2IndicatorPath;
+    private Sprite track2Indicator;
+
     private Track currentTrack;
 
     public override void _Ready()
@@ -26,6 +31,9 @@ public class SwitchTrackSection : Node2D, TrackSection
         track1 = GetNode(track1Path) as Track;
         track2 = GetNode(track2Path) as Track;
 
+        track1Indicator = GetNode(track1IndicatorPath) as Sprite;
+        track2Indicator = GetNode(track2IndicatorPath) as Sprite;
+
         CallDeferred("SetCurrentTrack", true);
     }
     
@@ -34,10 +42,14 @@ public class SwitchTrackSection : Node2D, TrackSection
         if (isTrack1)
         {
             currentTrack = track1;
+            track1Indicator.Show();
+            track2Indicator.Hide();
         }
         else
         {
             currentTrack = track2;
+            track1Indicator.Hide();
+            track2Indicator.Show();
         }
         sharedTrackJoint.GetParent().RemoveChild(sharedTrackJoint);
         currentTrack.AddChild(sharedTrackJoint);
@@ -71,9 +83,9 @@ public class SwitchTrackSection : Node2D, TrackSection
         return offset < currentTrack.Curve.GetBakedLength() ? sharedTrackJoint : endTrackJoint;
     }
 
-    public override void _Process(float delta)
+    public void _on_SwitchTrackSection_input_event(Node viewport, InputEvent inputEvent, int shapeIdx)
     {
-        if (Input.IsActionJustPressed("ui_accept"))
+        if (inputEvent.GetType() == typeof(InputEventMouseButton) && inputEvent.IsPressed())
         {
             if (currentTrack == track1) SetCurrentTrack(false);
             else SetCurrentTrack(true);

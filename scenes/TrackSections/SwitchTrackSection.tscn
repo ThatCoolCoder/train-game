@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/Track.cs" type="Script" id=1]
 [ext_resource path="res://scenes/TrackSections/TrackJoint.tscn" type="PackedScene" id=2]
 [ext_resource path="res://art/Track.png" type="Texture" id=3]
 [ext_resource path="res://scripts/SwitchTrackSection.cs" type="Script" id=4]
+[ext_resource path="res://art/SwitchIndicator.png" type="Texture" id=5]
 
 [sub_resource type="Curve2D" id=2]
 _data = {
@@ -15,13 +16,15 @@ _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 0, 0, -55.5, -0.25, 55.5, 0.25, 64, 0, -56.5, 0.5, 56.5, -0.5, 192, -64, 0, 0, 0, 0, 256, -64 )
 }
 
-[node name="SwitchTrackSection" type="Node2D"]
+[node name="SwitchTrackSection" type="Area2D"]
 script = ExtResource( 4 )
 sharedTrackJointPath = NodePath("SharedEnd")
 track1JointPath = NodePath("Path1/End1")
 track2JointPath = NodePath("Path2/End2")
 track1Path = NodePath("Path1")
 track2Path = NodePath("Path2")
+track1IndicatorPath = NodePath("Path1Indicator")
+track2IndicatorPath = NodePath("Path2Indicator")
 
 [node name="SharedEnd" parent="." instance=ExtResource( 2 )]
 position = Vector2( 0.00503041, 0 )
@@ -62,3 +65,17 @@ rotation = 0.0262809
 offset = 274.7
 TravelDirection = -1
 TrackSectionPath = NodePath("../..")
+
+[node name="Path1Indicator" type="Sprite" parent="."]
+position = Vector2( 56, 24 )
+rotation = -3.14159
+texture = ExtResource( 5 )
+
+[node name="Path2Indicator" type="Sprite" parent="."]
+position = Vector2( 56, -24 )
+texture = ExtResource( 5 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 0, -24, 64, -24, 152, -88, 256, -88, 256, 24, 0, 24 )
+
+[connection signal="input_event" from="." to="." method="_on_SwitchTrackSection_input_event"]

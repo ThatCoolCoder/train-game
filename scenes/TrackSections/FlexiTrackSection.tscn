@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/LinearTrackSection.cs" type="Script" id=1]
+[ext_resource path="res://scenes/TrackSections/TrackJoint.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/TrackSections/Track.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Curve2D" id=1]
+resource_local_to_scene = true
+_data = {
+"points": PoolVector2Array( -63.3253, 0, 63.3253, 0, 0, 0, -63.028, 0, 63.028, 0, 128, -64, -64.2172, -0.297302, 64.2172, 0.297302, 256, 0 )
+}
+
+[node name="FlexiTrackSection" instance=ExtResource( 3 )]
+curve = SubResource( 1 )
+script = ExtResource( 1 )
+End1Path = NodePath("End1")
+End2Path = NodePath("End2")
+
+[node name="End1" parent="." index="1" instance=ExtResource( 2 )]
+position = Vector2( 0.0050261, -0.00013793 )
+rotation = -0.022814
+offset = 0.01
+TrackSectionPath = NodePath("..")
+
+[node name="End2" parent="." index="2" instance=ExtResource( 2 )]
+position = Vector2( 256.009, 0.00367284 )
+rotation = -2.75542
+offset = 295.4
+TravelDirection = -1
+TrackSectionPath = NodePath("..")

@@ -13,5 +13,5 @@ trackFriction = 20.0
 acceleration = 400.0
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 2.625, 2.625 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
