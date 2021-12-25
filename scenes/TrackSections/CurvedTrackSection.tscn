@@ -16,10 +16,12 @@ End1Path = NodePath("End1")
 End2Path = NodePath("End2")
 
 [node name="End1" parent="." index="1" instance=ExtResource( 2 )]
-rotation = -0.0118829
+position = Vector2( 0.00501347, -3.63417e-05 )
+rotation = -0.0118512
+offset = 0.01
 
 [node name="End2" parent="." index="2" instance=ExtResource( 2 )]
-position = Vector2( 256, 256 )
-rotation = 1.56402
-offset = 399.208
+position = Vector2( 255.999, 255.887 )
+rotation = 1.56432
+offset = 399.0
 TravelDirection = -1

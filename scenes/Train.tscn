@@ -5,11 +5,12 @@
 
 [node name="Train" type="PathFollow2D"]
 position = Vector2( 0, -1 )
+z_index = 1
 loop = false
 script = ExtResource( 2 )
 maxSpeed = 400.0
 trackFriction = 20.0
-acceleration = 40.0
+acceleration = 400.0
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 2.625, 2.625 )

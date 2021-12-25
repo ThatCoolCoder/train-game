@@ -10,25 +10,26 @@ public class TrainCar : PathFollow2D
     [Export] private float acceleration = 1;
     [Export] private float crntSpeed = 0;
 
-    private float accelerationMultiplier = 1;
+    private float directionMultiplier = 1;
     private bool controlledThisFrame = false;
     private float endOfTrackThreshold = 50;
 
     public override void _Ready()
     {
         currentTrackSection = GetNode(currentTrackSectionPath) as TrackSection;
+        // TrySetCurrentTrackSection(currentTrackSection);
     }
 
     private void Keybinds(float delta)
     {
         if (Input.IsActionPressed("accelerate"))
         {
-            crntSpeed += acceleration * delta * accelerationMultiplier;
+            crntSpeed += acceleration * delta;
             controlledThisFrame = true;
         }
         if (Input.IsActionPressed("decelerate"))
         {
-            crntSpeed -= acceleration * delta * accelerationMultiplier;
+            crntSpeed -= acceleration * delta;
             controlledThisFrame = true;
         }
     }
@@ -45,10 +46,12 @@ public class TrainCar : PathFollow2D
             TrackJoint trackJoint = currentTrackSection.ClosestTrackJoint(Offset);
             if (trackJoint.ConnectedTo != null)
             {
+                TrySetCurrentTrackSection(trackJoint.ConnectedTo.GetParent() as TrackSection);
                 Offset = trackJoint.ConnectedTo.Offset;
-                currentTrackSection = trackJoint.ConnectedTo.GetParent() as TrackSection;
-                crntSpeed = Mathf.Abs(crntSpeed) * trackJoint.ConnectedTo.TravelDirection;
-                accelerationMultiplier = trackJoint.ConnectedTo.TravelDirection;
+                if (trackJoint.ConnectedTo.TravelDirection == trackJoint.TravelDirection)
+                {
+                    directionMultiplier *= -1;
+                }
             }
             else
             {
@@ -57,7 +60,13 @@ public class TrainCar : PathFollow2D
             }
         }
 
-        // Parent self to the current track section
+        TrySetCurrentTrackSection(currentTrackSection);
+    }
+
+    private void TrySetCurrentTrackSection(TrackSection trackSection)
+    {
+
+        currentTrackSection = trackSection;
         if (! currentTrackSection.CurrentPath.GetChildren().Contains(this))
         {
             GetParent().RemoveChild(this);
@@ -71,7 +80,7 @@ public class TrainCar : PathFollow2D
         {
             crntSpeed = Utils.ConvergeValue(crntSpeed, 0.0f, trackFriction * delta);
         }
-        Offset += crntSpeed * delta;
+        Offset += crntSpeed * delta * directionMultiplier;
     }
 
     // Update is called once per frame

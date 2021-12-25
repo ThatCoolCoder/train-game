@@ -14,9 +14,4 @@ public static class Utils
         else if (value == 0) return 0;
         else return -1;
     }
-
-    public static float Constrain(float value, float min, float max)
-    {
-        return Mathf.Min(Mathf.Max(value, min), max);
-    }
 }
