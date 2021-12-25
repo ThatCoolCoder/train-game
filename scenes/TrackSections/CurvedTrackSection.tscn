@@ -19,9 +19,11 @@ End2Path = NodePath("End2")
 position = Vector2( 0.00501347, -3.63417e-05 )
 rotation = -0.0118512
 offset = 0.01
+TrackSectionPath = NodePath("..")
 
 [node name="End2" parent="." index="2" instance=ExtResource( 2 )]
 position = Vector2( 255.999, 255.887 )
 rotation = 1.56432
 offset = 399.0
 TravelDirection = -1
+TrackSectionPath = NodePath("..")

@@ -15,8 +15,7 @@ _data = {
 position = Vector2( 0, 2 )
 
 [node name="Train" parent="." instance=ExtResource( 2 )]
-position = Vector2( -72, -306 )
-rotation = -0.281891
+position = Vector2( 0, 0 )
 offset = 151.52
 currentTrackSectionPath = NodePath("../StraightTrackSection")
 
@@ -28,13 +27,11 @@ position = Vector2( -128, -386 )
 curve = SubResource( 1 )
 
 [node name="StraightTrackSection2" parent="." instance=ExtResource( 1 )]
-visible = false
 position = Vector2( 448, 126 )
 rotation = 1.57079
 curve = SubResource( 1 )
 
 [node name="StraightTrackSection3" parent="." instance=ExtResource( 1 )]
-visible = false
 position = Vector2( 384, 126 )
 rotation = 1.57079
 curve = SubResource( 1 )

@@ -17,7 +17,6 @@ public class TrainCar : PathFollow2D
     public override void _Ready()
     {
         currentTrackSection = GetNode(currentTrackSectionPath) as TrackSection;
-        // TrySetCurrentTrackSection(currentTrackSection);
     }
 
     private void Keybinds(float delta)
@@ -46,7 +45,8 @@ public class TrainCar : PathFollow2D
             TrackJoint trackJoint = currentTrackSection.ClosestTrackJoint(Offset);
             if (trackJoint.ConnectedTo != null)
             {
-                TrySetCurrentTrackSection(trackJoint.ConnectedTo.GetParent() as TrackSection);
+                currentTrackSection = trackJoint.ConnectedTo.TrackSection;
+                UpdateParentPath();
                 Offset = trackJoint.ConnectedTo.Offset;
                 if (trackJoint.ConnectedTo.TravelDirection == trackJoint.TravelDirection)
                 {
@@ -59,14 +59,11 @@ public class TrainCar : PathFollow2D
                 crntSpeed = 0;
             }
         }
-
-        TrySetCurrentTrackSection(currentTrackSection);
+        UpdateParentPath();
     }
 
-    private void TrySetCurrentTrackSection(TrackSection trackSection)
+    private void UpdateParentPath()
     {
-
-        currentTrackSection = trackSection;
         if (! currentTrackSection.CurrentPath.GetChildren().Contains(this))
         {
             GetParent().RemoveChild(this);
