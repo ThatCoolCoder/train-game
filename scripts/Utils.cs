@@ -5,13 +5,6 @@ public static class Utils
 {
     public static float ConvergeValue(float value, float target, float increment)
     {
-        return value + -Sign(value - target) * increment;
-    }
-
-    public static int Sign(float value)
-    {
-        if (value > 0) return 1;
-        else if (value == 0) return 0;
-        else return -1;
+        return value + -Mathf.Sign(value - target) * increment;
     }
 }

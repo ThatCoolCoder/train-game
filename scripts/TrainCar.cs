@@ -3,43 +3,27 @@ using System;
 
 public class TrainCar : PathFollow2D
 {
+    // Track stuff
     [Export] private NodePath currentTrackSectionPath;
     private TrackSection currentTrackSection;
-    [Export] private float maxSpeed = 10;
-    [Export] private float trackFriction = 1;
-    [Export] private float acceleration = 1;
-    [Export] private float crntSpeed = 0;
-
     private float directionMultiplier = 1;
-    private bool controlledThisFrame = false;
-    private float endOfTrackThreshold = 50;
+
+    // Physics
+    private static float gravitationalAcceleration = 9.8f;
+    [Export] protected float mass = 1000;
+    [Export] public float CurrentSpeed = 0;
+    [Export] private float trackFrictionCoefficient = 0.01f; // cf of a bicycle
+    private float acceleration = 0;
+
 
     public override void _Ready()
     {
         currentTrackSection = GetNode(currentTrackSectionPath) as TrackSection;
     }
 
-    private void Keybinds(float delta)
-    {
-        if (Input.IsActionPressed("accelerate"))
-        {
-            crntSpeed += acceleration * delta;
-            controlledThisFrame = true;
-        }
-        if (Input.IsActionPressed("decelerate"))
-        {
-            crntSpeed -= acceleration * delta;
-            controlledThisFrame = true;
-        }
-    }
-
-    private void ConstrainSpeed()
-    {
-        crntSpeed = Mathf.Clamp(crntSpeed, -maxSpeed, maxSpeed);
-    }
-
     private void SwitchTrackSection()
     {
+        // Move the carriage onto a different section of track if it has gone off the end of this one
         if (! currentTrackSection.IsOffsetOnTrack(Offset))
         {
             TrackJoint trackJoint = currentTrackSection.ClosestTrackJoint(Offset);
@@ -56,7 +40,7 @@ public class TrainCar : PathFollow2D
             else
             {
                 Offset = trackJoint.Offset;
-                crntSpeed = 0;
+                CurrentSpeed = 0;
             }
         }
         UpdateParentPath();
@@ -71,21 +55,23 @@ public class TrainCar : PathFollow2D
         }
     }
 
-    private void Move(float delta)
+    protected void Move(float delta)
     {
-        if (!controlledThisFrame)
-        {
-            crntSpeed = Utils.ConvergeValue(crntSpeed, 0.0f, trackFriction * delta);
-        }
-        Offset += crntSpeed * delta * directionMultiplier;
+        ApplyForce(-Mathf.Sign(CurrentSpeed) * trackFrictionCoefficient * mass * 9.8f);
+        CurrentSpeed += acceleration * delta;
+        Offset += CurrentSpeed * delta * directionMultiplier;
+        acceleration = 0;
+    }
+
+    protected void ApplyForce(float force)
+    {
+        // force is along the direction of the track
+        acceleration += force / mass;
     }
 
     // Update is called once per frame
     public override void _Process(float delta)
     {
-        controlledThisFrame = false;
-        Keybinds(delta);
-        ConstrainSpeed();
         Move(delta);
         SwitchTrackSection();
     }
