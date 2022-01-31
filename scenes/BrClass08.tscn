@@ -4,15 +4,15 @@
 [ext_resource path="res://scripts/Locomotive.cs" type="Script" id=2]
 
 [node name="BrClass08" type="PathFollow2D"]
-position = Vector2( 0, 3 )
 z_index = 1
 loop = false
 script = ExtResource( 2 )
-mass = 50000.0
+mass = 49800.0
 trackFrictionCoefficient = 0.01
 maxSpeed = 272.0
-accelerationForce = 1.6e+06
+accelerationForce = 160000.0
+brakingForce = 320000.0
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 2, 2 )
+scale = Vector2( 2.788, 2.788 )
 texture = ExtResource( 1 )

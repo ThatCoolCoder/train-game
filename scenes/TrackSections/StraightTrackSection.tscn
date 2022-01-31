@@ -16,6 +16,9 @@ script = ExtResource( 3 )
 End1Path = NodePath("End1")
 End2Path = NodePath("End2")
 
+[node name="Line2D" parent="." index="0"]
+width = 22.96
+
 [node name="End1" parent="." index="1" instance=ExtResource( 1 )]
 position = Vector2( 0.00503041, 0 )
 offset = 0.01

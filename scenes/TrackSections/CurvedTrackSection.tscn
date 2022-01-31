@@ -15,6 +15,9 @@ script = ExtResource( 1 )
 End1Path = NodePath("End1")
 End2Path = NodePath("End2")
 
+[node name="Line2D" parent="." index="0"]
+width = 22.96
+
 [node name="End1" parent="." index="1" instance=ExtResource( 2 )]
 position = Vector2( 0.00501347, -3.63417e-05 )
 rotation = -0.0118512
